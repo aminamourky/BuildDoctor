@@ -1,0 +1,13 @@
+2024-01-15T10:23:45.123Z ##[group]Set up job
+2024-01-15T10:23:46.456Z Runner name: 'GitHub Actions 2'
+2024-01-15T10:23:47.789Z ##[group]Run actions/checkout@v3
+2024-01-15T10:23:48.012Z Syncing repository: myorg/myrepo
+2024-01-15T10:23:49.345Z ##[group]Run gradle build
+2024-01-15T10:23:50.678Z > Task :compileKotlin
+2024-01-15T10:24:15.901Z > Task :compileTestKotlin
+2024-01-15T10:24:20.234Z > Task :test
+2024-01-15T10:24:25.567Z ##[error]Test failed: DatabaseConnectionTest.testConnection
+2024-01-15T10:24:25.890Z ##[error]Connection timeout after 30 seconds
+2024-01-15T10:24:26.123Z ##[warning]Deprecated API usage detected in module 'core'
+2024-01-15T10:24:26.456Z BUILD FAILED
+2024-01-15T10:24:27.789Z ##[error]Process completed with exit code 1.

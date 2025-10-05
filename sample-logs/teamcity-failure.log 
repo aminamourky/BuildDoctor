@@ -1,0 +1,10 @@
+[10:30:15]##teamcity[blockOpened name='Checkout']
+[10:30:16] Checking out branch 'main'
+[10:30:18]##teamcity[blockClosed name='Checkout']
+[10:30:18]##teamcity[blockOpened name='Build']
+[10:30:20] Running Maven clean install
+[10:30:45] Compiling project modules
+[10:31:15]##teamcity[message text='Integration test timeout' status='ERROR']
+[10:31:15]##teamcity[message text='Database connection pool exhausted' status='ERROR']
+[10:31:16]##teamcity[blockClosed name='Build']
+[10:31:16]##teamcity[buildProblem description='Build failed with 2 errors']

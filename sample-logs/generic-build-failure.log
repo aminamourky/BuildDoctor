@@ -1,0 +1,16 @@
+2024-01-15 10:20:00 ========================================
+2024-01-15 10:20:00 Starting Build Process
+2024-01-15 10:20:00 ========================================
+2024-01-15 10:20:05 Step 1: Dependency Resolution
+2024-01-15 10:20:15 Downloading dependencies...
+2024-01-15 10:20:45 Step 2: Compilation
+2024-01-15 10:21:00 Compiling 147 source files
+2024-01-15 10:21:30 ERROR: Compilation failed in module 'auth-service'
+2024-01-15 10:21:30 Error: Unresolved reference: UserRepository
+2024-01-15 10:21:30 at line 42 in UserService.kt
+2024-01-15 10:21:31 Step 3: Running Tests
+2024-01-15 10:21:31 SKIPPED due to compilation failure
+2024-01-15 10:21:32 Warning: 3 dependencies have known security vulnerabilities
+2024-01-15 10:21:33 ========================================
+2024-01-15 10:21:33 Build Failed
+2024-01-15 10:21:33 ========================================
