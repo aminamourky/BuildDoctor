@@ -27,7 +27,7 @@ AI-powered CI/CD log analyzer that automatically diagnoses build failures and su
 ### Installation
 ```bash
 # Clone the repository
-git clone [<your-repo-url>](https://github.com/aminamourky/BuildDoctor)
+git clone https://github.com/aminamourky/BuildDoctor
 cd BuildDoctor
 
 # Set your OpenAI API key
