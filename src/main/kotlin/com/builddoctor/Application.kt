@@ -26,13 +26,24 @@ fun Application.configureSerialization() {
 fun Application.configureRouting() {
     val logParser = LogParser()
 
+    // Get API key from environment variable
+    val openAIKey = System.getenv("OPENAI_API_KEY")
+    val openAIClient = if (openAIKey != null) {
+        OpenAIClient(openAIKey)
+    } else {
+        null
+    }
+
     routing {
         get("/") {
             call.respondText("BuildDoctor API v1.0 - CI/CD Log Analyzer", ContentType.Text.Plain)
         }
 
         get("/health") {
-            call.respond(mapOf("status" to "healthy"))
+            call.respond(mapOf(
+                "status" to "healthy",
+                "aiEnabled" to (openAIClient != null)
+            ))
         }
 
         post("/analyze") {
@@ -50,10 +61,28 @@ fun Application.configureRouting() {
                 val analysis = logParser.parse(request.logContent, request.logType)
                 val summary = generateSummary(analysis)
 
+                // Get AI analysis if available and there are failures
+                val aiAnalysis = if (openAIClient != null && analysis.failedSteps > 0) {
+                    try {
+                        val aiResult = openAIClient.analyzeLog(analysis)
+                        AIAnalysisData(
+                            rootCause = aiResult.rootCause,
+                            recommendations = aiResult.recommendations,
+                            impact = aiResult.impact
+                        )
+                    } catch (e: Exception) {
+                        println("AI analysis failed: ${e.message}")
+                        null
+                    }
+                } else {
+                    null
+                }
+
                 val response = AnalyzeResponse(
                     status = if (analysis.failedSteps > 0) "failed" else "success",
                     analysis = analysis,
-                    summary = summary
+                    summary = summary,
+                    aiAnalysis = aiAnalysis
                 )
 
                 call.respond(HttpStatusCode.OK, response)

@@ -31,5 +31,13 @@ data class AnalyzeRequest(
 data class AnalyzeResponse(
     val status: String,
     val analysis: LogAnalysis,
-    val summary: String
+    val summary: String,
+    val aiAnalysis: AIAnalysisData? = null
+)
+
+@Serializable
+data class AIAnalysisData(
+    val rootCause: String,
+    val recommendations: String,
+    val impact: String
 )
