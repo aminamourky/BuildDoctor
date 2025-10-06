@@ -86,9 +86,12 @@ class OpenAIClient(private val apiKey: String) {
 
     private fun parseAIResponse(content: String): AIAnalysisResult {
         val lines = content.lines()
-        val rootCause = lines.find { it.contains("Root Cause", ignoreCase = true) }
-            ?.substringAfter(":", "").takeIf { it.isNotBlank() }
-            ?: extractSection(content, "root cause", "recommendation")
+        val rootCauseFromLine = lines.find { it.contains("Root Cause", ignoreCase = true) }
+            ?.substringAfter(":", "")?.trim() ?: ""
+
+        val rootCause = rootCauseFromLine.ifBlank {
+            extractSection(content, "root cause", "recommendation")
+        }
 
         val recommendations = extractSection(content, "recommendation", "impact")
             .ifBlank { extractBulletPoints(content) }
@@ -108,8 +111,10 @@ class OpenAIClient(private val apiKey: String) {
         val startIdx = lower.indexOf(startMarker)
         if (startIdx == -1) return ""
 
-        val start = content.indexOf('\n', startIdx) + 1
-        if (start == 0) return ""
+        val lineBreakIdx = content.indexOf('\n', startIdx)
+        if (lineBreakIdx == -1) return ""
+
+        val start = lineBreakIdx + 1
 
         val end = if (endMarker != null) {
             val endIdx = lower.indexOf(endMarker, start)
@@ -118,7 +123,11 @@ class OpenAIClient(private val apiKey: String) {
             content.length
         }
 
-        return content.substring(start, end).trim()
+        return if (start < end && start < content.length) {
+            content.substring(start, end).trim()
+        } else {
+            ""
+        }
     }
 
     private fun extractBulletPoints(content: String): String {
@@ -134,18 +143,18 @@ class OpenAIClient(private val apiKey: String) {
 
     companion object {
         private const val SYSTEM_PROMPT = """You are an expert CI/CD engineer analyzing build failures. 
-Provide concise, actionable analysis in this format:
-
-Root Cause: [1-2 sentence explanation of what caused the failure]
-
-Recommendations:
-- [Specific action 1]
-- [Specific action 2]
-- [Specific action 3]
-
-Impact: [Brief description of how this affects the pipeline]
-
-Keep responses focused and practical."""
+            Provide concise, actionable analysis in this format:
+            
+            Root Cause: [1-2 sentence explanation of what caused the failure]
+            
+            Recommendations:
+            - [Specific action 1]
+            - [Specific action 2]
+            - [Specific action 3]
+            
+            Impact: [Brief description of how this affects the pipeline]
+            
+            Keep responses focused and practical."""
     }
 }
 
