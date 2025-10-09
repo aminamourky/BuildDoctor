@@ -35,3 +35,14 @@ export OPENAI_API_KEY="sk-your-key-here"
 
 # Build and run
 ./gradlew run
+```
+
+### Architecture
+BuildDoctor/
+├── src/main/kotlin/com/builddoctor/
+│   ├── Application.kt       # Ktor server & routing
+│   ├── LogParser.kt         # Multi-format log parsing
+│   ├── OpenAIClient.kt      # GPT-3.5 integration
+│   └── Models.kt            # Data models
+├── sample-logs/             # Test log files
+└── build.gradle.kts         # Dependencies
