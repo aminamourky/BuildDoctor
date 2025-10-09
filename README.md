@@ -38,6 +38,7 @@ export OPENAI_API_KEY="sk-your-key-here"
 ```
 
 ### Architecture
+```
 BuildDoctor/
 ├── src/main/kotlin/com/builddoctor/
 │   ├── Application.kt       # Ktor server & routing
@@ -46,3 +47,4 @@ BuildDoctor/
 │   └── Models.kt            # Data models
 ├── sample-logs/             # Test log files
 └── build.gradle.kts         # Dependencies
+```
